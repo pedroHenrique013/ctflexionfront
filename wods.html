@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de WODs</title>
+</head>
+<body>
+    <h1>Lista de WODs</h1>
+    <ul id="wodList"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:3000/wods/all', {
+                headers: {
+                    'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+                }
+            })
+            .then(response => response.json())
+            .then(wods => {
+                const wodList = document.getElementById('wodList');
+                wods.forEach(wod => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Título: ${wod.title}, Descrição: ${wod.description}, Data: ${wod.date}`;
+                    wodList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching WODs:', error));
+        });
+    </script>
+</body>
+</html>
