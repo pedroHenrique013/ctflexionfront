@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>CT FLEXION</title>
+    <link rel="stylesheet" href="../styles/home.css" />
+  </head>
+  <body>
+    <main>
+      <aside>
+        <img src="../assets/pitbull.png" alt="" style="width: 30%" />
+        <div class="icon">
+          <div onclick=" redirectionHome()" class="home-icon">
+            <svg
+              class="active-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              fill="#767887"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"
+              ></path>
+            </svg>
+          </div>
+          <svg
+            onclick="redirectionLeader()"
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            fill="#767887"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M216,96A88,88,0,1,0,72,163.83V240a8,8,0,0,0,11.58,7.16L128,225l44.43,22.21A8.07,8.07,0,0,0,176,248a8,8,0,0,0,8-8V163.83A87.85,87.85,0,0,0,216,96ZM56,96a72,72,0,1,1,72,72A72.08,72.08,0,0,1,56,96ZM168,227.06l-36.43-18.21a8,8,0,0,0-7.16,0L88,227.06V174.37a87.89,87.89,0,0,0,80,0ZM128,152A56,56,0,1,0,72,96,56.06,56.06,0,0,0,128,152Zm0-96A40,40,0,1,1,88,96,40,40,0,0,1,128,56Z"
+            ></path>
+          </svg>
+        </div>
+      </aside>
+      <section class="home">
+        <div class="content">
+          <div class="perfil">
+            <div class="text-avatar">PH</div>
+            <p class="perfil-name">Pedro Henrique</p>
+          </div>
+          <div class="time">
+            <span>0</span>
+            <span>0</span>
+            <span>:</span>
+            <span>0</span>
+            <span>0</span>
+          </div>
+          <div class="set-time">
+            <label for="inputTime">Defina o tempo do Woukout</label>
+            <div class="set-time-display">
+              <input type="number" id="inputTime" min="1" step="1" value="60" />
+              <button class="set-time-btn">Definir Tempo</button>
+            </div>
+          </div>
+          <button class="btn-1 play-time">Iniciar ▶</button>
+          <button class="btn-2 finish-time active-btn">Finalizar X</button>
+        </div>
+        <div id="create" class="card-wod">
+          <p class="title">Crie um Workout of the day</p>
+          <img id="button" class="button" src="../assets/Group 37.png" alt="" />
+          <span>Clique no botão acima e crie seu WOD.</span>
+        </div>
+        <div id="register" class="card-wod active">
+          <p class="title-create create">Workout of the day</p>
+          <form id="createWodForm">
+            <input
+              type="text"
+              name="title"
+              placeholder="Título"
+              required
+            /><br />
+            <textarea
+              type="text"
+              name="description"
+              placeholder="Descrição"
+              required
+            ></textarea
+            ><br />
+            <a href="./home.html" class="cancel">Cancel</a>
+            <button class="confirm" type="submit">Criar</button>
+          </form>
+        </div>
+        <div id="wod" class="card-wod active">
+          <ul id="wodList"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      let timerInterval;
+      let seconds = 0;
+      let running = false;
+
+      function updateDisplay() {
+        const timeDisplay = document.querySelector(".time");
+        timeDisplay.children[0].textContent = Math.floor(seconds / 60 / 10);
+        timeDisplay.children[1].textContent = Math.floor(seconds / 60) % 10;
+        timeDisplay.children[3].textContent = Math.floor((seconds % 60) / 10);
+        timeDisplay.children[4].textContent = (seconds % 60) % 10;
+      }
+
+      function startTimer() {
+        if (!running) {
+          running = true;
+          timerInterval = setInterval(() => {
+            if (seconds === 0) {
+              finishTimer();
+              return;
+            }
+            seconds--;
+            updateDisplay();
+          }, 1000);
+          document.querySelector(".play-time").classList.add("active-btn");
+          document.querySelector(".finish-time").classList.remove("active-btn");
+        }
+      }
+
+      function stopTimer() {
+        if (running) {
+          running = false;
+          clearInterval(timerInterval);
+          document.querySelector(".play-time");
+        }
+      }
+
+      function finishTimer() {
+        stopTimer();
+        const timeDisplay = document.querySelector(".time").textContent;
+        localStorage.setItem("finishedTime", timeDisplay);
+        document.querySelector(".play-time").classList.remove("active-btn");
+        document.querySelector(".finish-time").classList.add("active-btn");
+        resetTimer();
+      }
+
+      function resetTimer() {
+        seconds = 0;
+        updateDisplay();
+      }
+
+      document.querySelector(".play-time").addEventListener("click", () => {
+        if (running) {
+          stopTimer();
+        } else {
+          startTimer();
+        }
+      });
+
+      document
+        .querySelector(".finish-time")
+        .addEventListener("click", finishTimer);
+
+      document.querySelector(".set-time-btn").addEventListener("click", () => {
+        const inputMinutes = parseInt(
+          document.getElementById("inputTime").value
+        );
+        seconds = inputMinutes * 60; // Converte minutos para segundos
+        updateDisplay();
+      });
+
+      /* LISTAR o WOD cadastrado */
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("http://localhost:3030/wods/all", {
+          headers: {
+            Authorization: "Bearer YOUR_ACCESS_TOKEN",
+          },
+        })
+          .then((response) => response.json())
+          .then((wods) => {
+            const wodList = document.getElementById("wodList");
+            wods.forEach((wod) => {
+              const listItem = document.createElement("li");
+              listItem.innerHTML = `<h2>${wod.title}</h2><img src="../assets/Peso.png"><p>${wod.description}</p><p>${wod.date}</p>`;
+              wodList.appendChild(listItem);
+            });
+          })
+          .catch((error) => console.error("Error fetching WODs:", error));
+      });
+
+      /* Registrar WOD */
+      document
+        .getElementById("createWodForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const wod = {
+            title: formData.get("title"),
+            description: formData.get("description"),
+          };
+
+          fetch("http://localhost:3030/wods/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer YOUR_ACCESS_TOKEN",
+            },
+            body: JSON.stringify(wod),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("WOD criado com sucesso:", data);
+
+              if (data.wod) {
+                console.log("A API retornou um registro de WOD.");
+              } else {
+                console.log("A API não retornou um registro de WOD.");
+                document.getElementById("wod").classList.remove("active");
+                document.getElementById("register").classList.add("active");
+              }
+            })
+            .catch((error) => console.error("Erro ao criar WOD:", error));
+          document.getElementById("wod").classList.remove("active");
+          document.getElementById("register").classList.add("active");
+        });
+
+      document.getElementById("button").addEventListener("click", () => {
+        document.getElementById("register").classList.remove("active");
+        document.getElementById("create").classList.add("active");
+      });
+
+      function redirectionHome() {
+        return (window.location.href = "../../src/pages/home.html");
+        console.log("cliquei");
+      }
+
+      function redirectionLeader() {
+        return (window.location.href = "../../src/pages/leader.html");
+      }
+    </script>
+  </body>
+</html>

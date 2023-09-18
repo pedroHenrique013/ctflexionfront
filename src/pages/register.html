@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Registro de Usuário</title>
+    <link rel="stylesheet" href="../styles/register.css" />
+  </head>
+  <body>
+    <main>
+      <section class="register">
+        <div class="content-form">
+          <img src="../assets/Logo.png" alt="" />
+          <h2>Cadastro</h2>
+          <p>Entre com o seu dados para se cadastrar</p>
+          <form id="registerForm">
+            <input type="text" name="name" placeholder="Nome" required /><br />
+            <input
+              type="email"
+              name="email"
+              placeholder="E-mail"
+              required
+            /><br />
+            <input
+              type="password"
+              name="password"
+              placeholder="Senha"
+              required
+            /><br />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirme a Senha"
+              required
+            /><br />
+            <div id="erro"></div>
+            <button type="submit">Cadastrar</button>
+            <p>Ja posuui uma conta?<a href="../../index.html">Faça login</a></p>
+          </form>
+        </div>
+        <img
+          class="imagem-box"
+          src="../assets/unsplash_BBR_zigEmyQ.png"
+          alt=""
+        />
+      </section>
+    </main>
+
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const password = formData.get("password");
+          const confirmPassword = formData.get("confirmPassword");
+          const erro = document.getElementById("erro")
+
+          if (password !== confirmPassword) {
+            erro.innerHTML = 'As senhas digitadas não coincidem'
+            return;
+          }
+
+          const user = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            password: password,
+          };
+
+          fetch("http://localhost:3030/users/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("User registered successfully:", data.user);
+              window.location.href = "../../index.html";
+            })
+            .catch((error) => console.error("Error registering user:", error));
+        });
+    </script>
+  </body>
+</html>

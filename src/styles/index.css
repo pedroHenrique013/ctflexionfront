@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background-color: black;
+}
+
+main {
+    height: 100vh;
+    position: relative;
+    background-image: url('../assets/background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    position: relative;
+}
+
+main::before{
+    content: "";
+    background-color: rgba(0, 0, 0, 0.7); /* Cor branca com 50% de opacidade */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.imagem img {
+    width: 85%;
+    height: 100%;
+    opacity: 20%;
+}
+
+.login {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right:9.375rem;
+    color: white;
+    z-index: 1;
+
+}
+
+.login img {
+    margin-bottom: 1.47rem;
+}
+
+.login h2 {
+    font-size: 2.25rem;
+    margin-left: 1.8rem;
+    margin-bottom: 1.26rem;
+}
+
+.login p {
+    font-size: 1.25rem;
+    margin-left: 1.8rem;
+    margin-bottom: 2.5rem;
+}
+
+.login form {
+    margin-left: 1.8rem
+}
+
+.login form input {
+    margin-bottom: 0.7rem;
+
+}
+
+.login form input::placeholder {
+    padding-left: 10px;
+}
+
+.login form input,button {
+    width: 21.25rem;
+    height: 3rem;
+    border-radius: 4px;
+}
+
+.login form button {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #FF0100;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.content-form span {
+    margin-left: 3.85rem;
+}
+
+
+.content-form a {
+    color: #FF0100;
+    font-size: 1.1rem;
+    font-weight: 500;
+
+}
+
+.content-form a:hover {
+    filter: brightness(2);
+}
+

@@ -1,28 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Usuários</title>
-</head>
-<body>
-    <h1>Lista de Usuários</h1>
-    <ul id="userList"></ul>
-
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Login</title>
+    <link rel="stylesheet" href="./src/styles/index.css" />
+  </head>
+  <body>
+    <main>
+      <section class="login">
+        <div class="imagem">
+          <img
+            src="./src/assets/pitbull.png"
+            alt="Rosto de um cachorro da raça pitbull"
+          />
+        </div>
+        <div class="content-form">
+          <img src="./src/assets/Logo.png" alt="" />
+          <h2>Bem Vindo</h2>
+          <p>Faça seu cadastro para começar.</p>
+          <form id="loginForm">
+            <input
+              type="email"
+              name="email"
+              placeholder="E-mail"
+              required
+            /><br />
+            <input
+              type="password"
+              name="password"
+              placeholder="Senha"
+              required
+            /><br />
+            <div id="message"></div>
+            <button type="submit">Entrar</button>
+          </form>
+          <span
+            >Não tem uma conta?
+            <a href="./src/pages/register.html">Cadastre-se</a></span
+          >
+        </div>
+      </section>
+    </main>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('http://localhost:3030/users/all')
-                .then(response => response.json())
-                .then(users => {
-                    const userList = document.getElementById('userList');
-                    users.forEach(user => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = user.name;
-                        userList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching users:', error));
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const user = {
+            email: formData.get("email"),
+            password: formData.get("password"),
+          };
+
+          fetch("http://localhost:3030/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then((data) => {
+              const messageElement = document.getElementById("message");
+              messageElement.textContent = `Login successful.`;
+              // Adicionando a lógica de redirecionamento para a página home
+              window.location.href = "./src/pages/home.html";
+            })
+            .catch((error) => {
+              console.error("Error logging in:", error);
+              const messageElement = document.getElementById("message");
+              messageElement.textContent =
+                `Por favor, verifique suas credenciais e tente novamente.`;
+            });
         });
     </script>
-</body>
+  </body>
 </html>
