@@ -66,7 +66,7 @@
             <span>0</span>
           </div>
           <div class="set-time">
-            <label for="inputTime">Defina o tempo do Woukout</label>
+            <label for="inputTime">Defina o tempo do treino</label>
             <div class="set-time-display">
               <input type="number" id="inputTime" min="1" step="1" value="60" />
               <button class="set-time-btn">Definir Tempo</button>
@@ -76,12 +76,12 @@
           <button class="btn-2 finish-time active-btn">Finalizar X</button>
         </div>
         <div id="create" class="card-wod">
-          <p class="title">Crie um Workout of the day</p>
+          <p class="title">Crie um treino</p>
           <img id="button" class="button" src="../assets/Group 37.png" alt="" />
           <span>Clique no botão acima e crie seu WOD.</span>
         </div>
         <div id="register" class="card-wod active">
-          <p class="title-create create">Workout of the day</p>
+          <p class="title-create create">Treino do dia</p>
           <form id="createWodForm">
             <input
               type="text"
@@ -96,7 +96,7 @@
               required
             ></textarea
             ><br />
-            <a href="./home.html" class="cancel">Cancel</a>
+            <a href="./home.html" class="cancel">Cancelar</a>
             <button class="confirm" type="submit">Criar</button>
           </form>
         </div>
@@ -197,41 +197,42 @@
       });
 
       /* Registrar WOD */
-      document
-        .getElementById("createWodForm")
-        .addEventListener("submit", (event) => {
-          event.preventDefault();
+      document.getElementById("createWodForm").addEventListener("submit", (event) => {
+  event.preventDefault();
 
-          const formData = new FormData(event.target);
-          const wod = {
-            title: formData.get("title"),
-            description: formData.get("description"),
-          };
+  const formData = new FormData(event.target);
+  const wod = {
+    title: formData.get("title"),
+    description: formData.get("description"),
+  };
 
-          fetch("http://localhost:3030/wods/create", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer YOUR_ACCESS_TOKEN",
-            },
-            body: JSON.stringify(wod),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log("WOD criado com sucesso:", data);
+  fetch("http://localhost:3030/wods/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer YOUR_ACCESS_TOKEN",
+    },
+    body: JSON.stringify(wod),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Resposta da API:", data);
+      console.log(data.message)
 
-              if (data.wod) {
-                console.log("A API retornou um registro de WOD.");
-              } else {
-                console.log("A API não retornou um registro de WOD.");
-                document.getElementById("wod").classList.remove("active");
-                document.getElementById("register").classList.add("active");
-              }
-            })
-            .catch((error) => console.error("Erro ao criar WOD:", error));
-          document.getElementById("wod").classList.remove("active");
+      if (data.message === undefined) {
+        console.log("WOD criado com sucesso");
+        // Atualize a interface do usuário para refletir o sucesso
+      } else {
+        console.log("Erro ao criar WOD:", data.error);
+        document.getElementById("wod").classList.remove("active");
           document.getElementById("register").classList.add("active");
-        });
+      }
+    })
+    .catch((error) => console.error("Erro ao criar WOD:", error));
+    document.getElementById("wod").classList.remove("active");
+          document.getElementById("register").classList.add("active");
+});
+
 
       document.getElementById("button").addEventListener("click", () => {
         document.getElementById("register").classList.remove("active");
