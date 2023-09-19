@@ -18,11 +18,11 @@
         document.getElementById('createWodForm').addEventListener('submit', (event) => {
             event.preventDefault();
             
-            const formData = new FormData(event.target);
+           const formData = new FormData(event.target);
             const wod = {
                 title: formData.get('title'),
                 description: formData.get('description'),
-                date: formData.get('date')
+                 date: formData.get('date')
             };
 
             fetch('http://localhost:3000/wods/create', {

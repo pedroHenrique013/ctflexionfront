@@ -152,6 +152,7 @@ table tbody tr td:nth-child(1) {
 }
 
 table tbody tr td:nth-child(3) {
+    width: 12rem;
     padding-left: 4rem;
 }
 
