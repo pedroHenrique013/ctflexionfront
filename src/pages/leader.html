@@ -44,7 +44,7 @@
           <tr>
             <th>Posição</th>
             <th>Usuário</th>
-            <th>Tempo</th>
+            <th>Treino</th>
             <th>Estrelas</th>
           </tr>
         </thead>
@@ -97,13 +97,13 @@
         <img class="image-wod" src="../assets/Peso.png" style="width: 13%" />`;
             row.appendChild(nameCell);
 
-            const tempoCell = document.createElement("td");
-            tempoCell.textContent = `${storedTime} minutos`;
-            row.appendChild(tempoCell);
+            /*const tempoCell = document.createElement("td");
+            tempoCell.textContent = `${user.time} minutos`;
+            row.appendChild(tempoCell);*/
 
-            /*const wodCell = document.createElement("td");
+            const wodCell = document.createElement("td");
             wodCell.textContent = `${index + 1} completados`;
-            row.appendChild(wodCell);*/
+            row.appendChild(wodCell);
 
             const estrelasCell = document.createElement("td");
             estrelasCell.textContent = "⭐⭐⭐⭐"; // Defina aqui o valor das estrelas conforme necessário

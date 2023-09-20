@@ -131,6 +131,13 @@ svg {
     cursor: pointer;
 }
 
+.set-time-btn:disabled {
+    /* Estilos para quando o botão está desabilitado */
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
 label {
     margin-bottom: 0.5rem;
 }
@@ -330,4 +337,10 @@ form {
 
 .active {
     display: none;
+}
+
+#wodlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
