@@ -359,7 +359,7 @@ form {
 }
 
 .stars input {
-    width: 3rem;
+    width: 3.3rem;
     height: 2rem;
     background-color: transparent;
     border: none;
@@ -370,4 +370,5 @@ form {
 .stars input::placeholder {
     color: #ffffff;
     font-size: 1.3rem;
+
 }
