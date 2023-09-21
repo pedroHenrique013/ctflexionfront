@@ -46,6 +46,9 @@
           <div class="text-avatar">PH</div>
           <p class="perfil-name"></p>
         </div>
+        <div class="stars">
+          <span>Adicionar estrelas</span><input type="number" name="" id="" placeholder="00">
+        </div>
         <div class="time">
           <span>0</span>
           <span>0</span>
@@ -53,15 +56,7 @@
           <span>0</span>
           <span>0</span>
         </div>
-        <div class="set-time">
-          <label for="inputTime">Defina o tempo do treino</label>
-          <div class="set-time-display">
-            <input type="number" id="inputTime" min="1" max="30" step="1" value="0" />
-            <button class="set-time-btn">Definir Tempo</button>
-          </div>
-          <p id="error-message"></p>
-        </div>
-        <button class="btn-1 play-time" disabled>Iniciar ▶</button>
+        <button class="btn-1 play-time">Iniciar ▶</button>
         <button class="btn-2 finish-time active-btn">Finalizar X</button>
       </div>
       <div id="create" class="card-wod">
@@ -119,8 +114,6 @@
     let running = false;
     let wodcreate = false;
 
-
-
     function updateDisplay() {
       const button = document.querySelector('.set-time-btn')
       const timeDisplay = document.querySelector(".time");
@@ -132,20 +125,16 @@
     }
 
     function startTimer() {
-      if (!running) {
-        running = true;
-        timerInterval = setInterval(() => {
-          if (seconds === 0) {
-            finishTimer();
-            return;
-          }
-          seconds--;
-          updateDisplay();
-        }, 1000);
-        document.querySelector(".play-time").classList.add("active-btn");
-        document.querySelector(".finish-time").classList.remove("active-btn");
-      }
-    }
+            if (!running) {
+                running = true;
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateDisplay();
+                }, 1000);
+              document.querySelector(".play-time").classList.add("active-btn");
+              document.querySelector(".finish-time").classList.remove("active-btn");
+            }
+        }
 
     function stopTimer() {
       if (running) {
@@ -186,37 +175,6 @@
     document
       .querySelector(".finish-time")
       .addEventListener("click", finishTimer);
-
-    document.querySelector(".set-time-btn").addEventListener("click", () => {
-      let button = document.querySelector('.set-time-btn');
-      let start = document.querySelector('.btn-1')
-      const inputMinutes = parseInt(
-        document.getElementById("inputTime").value
-      );
-
-      let errorMessageElement = document.getElementById("error-message");
-
-      if (inputMinutes > 30 || inputMinutes < 1) {
-        errorMessageElement.textContent = "O valor não pode ser menor que 1 ou maior que 30 min.";
-        errorMessageElement.style.display = "block";
-        setTimeout(() => {
-          errorMessageElement.style.display = "none";
-        }, 5000);
-        return; // Retorna sem fazer mais nada se o valor for maior que 30
-      }
-
-      seconds = inputMinutes * 60; // Converte minutos para segundos
-      updateDisplay();
-      start.disabled = false;
-      button.disabled = true;
-    });
-
-    // Adicione este trecho para esconder a mensagem de erro inicialmente
-    document.addEventListener('DOMContentLoaded', () => {
-      let errorMessageElement = document.getElementById("error-message");
-      errorMessageElement.style.display = "none";
-    });
-
 
     async function atualizarTime(token, novoTime ) {
       console.log(token)

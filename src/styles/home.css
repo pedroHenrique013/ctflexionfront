@@ -349,3 +349,25 @@ form {
     font-size: 0.8rem;
     margin-bottom: 2rem;
 }
+
+.stars {
+    display: flex;
+    justify-content: space-between;
+    width: 24.313rem;
+    border-bottom: solid 1px #ccc;
+    margin-bottom: 2rem;
+}
+
+.stars input {
+    width: 3rem;
+    height: 2rem;
+    background-color: transparent;
+    border: none;
+    border-bottom: none;
+    color: #ffffff;
+}
+
+.stars input::placeholder {
+    color: #ffffff;
+    font-size: 1.3rem;
+}
