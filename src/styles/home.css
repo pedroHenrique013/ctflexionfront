@@ -263,7 +263,6 @@ form {
 .card-wod textarea {
     width: 100%;
     height: 60%;
-    margin-bottom: 2rem;
     background-color: rgba(0, 0, 0, 0.606);
     color: aliceblue;
     border: solid 1px rgba(40, 40, 40, 0.693);
@@ -343,4 +342,10 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#message-erro-wod {
+    color: #ff0000fd;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
 }

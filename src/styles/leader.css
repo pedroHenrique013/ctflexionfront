@@ -173,4 +173,7 @@ table tbody tr td:nth-child(4) {
     margin-right: 7.188rem;
 }
 
-
+.tabela {
+    height: 89%;
+    overflow-x: auto;
+}

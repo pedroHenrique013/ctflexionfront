@@ -20,7 +20,7 @@
           </path>
         </svg>
         <div class="leader-icon">
-          <svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#767887"
+          <svg onclick="" class="active-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#767887"
             viewBox="0 0 256 256">
             <path
               d="M216,96A88,88,0,1,0,72,163.83V240a8,8,0,0,0,11.58,7.16L128,225l44.43,22.21A8.07,8.07,0,0,0,176,248a8,8,0,0,0,8-8V163.83A87.85,87.85,0,0,0,216,96ZM56,96a72,72,0,1,1,72,72A72.08,72.08,0,0,1,56,96ZM168,227.06l-36.43-18.21a8,8,0,0,0-7.16,0L88,227.06V174.37a87.89,87.89,0,0,0,80,0ZM128,152A56,56,0,1,0,72,96,56.06,56.06,0,0,0,128,152Zm0-96A40,40,0,1,1,88,96,40,40,0,0,1,128,56Z">
@@ -39,34 +39,39 @@
           </path>
         </svg>
       </header>
-      <table>
-        <thead>
-          <tr>
-            <th>Posição</th>
-            <th>Usuário</th>
-            <th>Treino</th>
-            <th>Estrelas</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="tabela">
+        <table>
+          <thead>
+            <tr>
+              <th>Posição</th>
+              <th>Usuário</th>
+              <th>Treino</th>
+              <th>Estrelas</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
   </main>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-
-      const storedTime = localStorage.getItem("time");
-      console.log(storedTime);  
-      // Verificar se há um tempo armazenado no Local Storage
-      const tempo = storedTime ? parseFloat(storedTime) : null;
       fetch("http://localhost:3030/users/all")
         .then((response) => response.json())
         .then((users) => {
+          // Converter os tempos em minutos para formato numérico
+          users.forEach(user => {
+            const timeString = user.time; // Assume que user.time é uma string contendo números
+            const numbersOnly = timeString.match(/\d+/g).join(''); // Extrai os números da string e os junta em uma string sem espaços
+            const timeNumber = parseInt(numbersOnly, 10);
+            user.timeInMinutes = timeNumber
+            // Converte a string de números para um número inteiro
+            console.log(user.timeInMinutes);
+          });
 
-          if (tempo) {
-        users.sort((a, b) => (a.tempo > b.tempo ? 1 : -1));
-      }
+          // Ordenar os usuários com base no tempo
+          users.sort((a, b) => a.timeInMinutes - b.timeInMinutes);
 
           const tbody = document.querySelector("table tbody");
 
@@ -79,34 +84,36 @@
 
             const nameCell = document.createElement("td");
 
-            // Separar o nome completo em partes (primeiro e último nome)
-            const names = user.name.split(" ");
+            function obterIniciais(nomeCompleto) {
+      const partesDoNome = nomeCompleto.split(' ');
 
-            // Pegar a inicial do primeiro nome
-            const firstNameInitial = names[0].charAt(0);
-
-            // Verificar se há um segundo nome
-            let secondNameInitial = "";
-            secondNameInitial = names[0].substring(0, 2);
+      if (partesDoNome.length > 1) {
+        // O usuário tem um sobrenome
+        return partesDoNome[0].charAt(0) + partesDoNome[1].charAt(0);
+      } else {
+        // O usuário tem apenas um nome
+        return partesDoNome[0].substring(0, 2);
+      }
+    }
 
             nameCell.innerHTML = `
         <div class="content-user">
-            <div class="text-avatar">${secondNameInitial.toLocaleUpperCase()}</div>
+            <div class="text-avatar">${obterIniciais(user.name).toLocaleUpperCase()}</div>
             ${user.name} 
         </div>
         <img class="image-wod" src="../assets/Peso.png" style="width: 13%" />`;
             row.appendChild(nameCell);
 
-            /*const tempoCell = document.createElement("td");
-            tempoCell.textContent = `${user.time} minutos`;
-            row.appendChild(tempoCell);*/
+            const tempoCell = document.createElement("td");
+            tempoCell.textContent = `${user.time} min`;
+            row.appendChild(tempoCell);
 
-            const wodCell = document.createElement("td");
+            /*const wodCell = document.createElement("td");
             wodCell.textContent = `${index + 1} completados`;
-            row.appendChild(wodCell);
+            row.appendChild(wodCell);*/
 
             const estrelasCell = document.createElement("td");
-            estrelasCell.textContent = "⭐⭐⭐⭐"; // Defina aqui o valor das estrelas conforme necessário
+            estrelasCell.textContent = "⭐⭐⭐"; // Defina aqui o valor das estrelas conforme necessário
             row.appendChild(estrelasCell);
 
             tbody.appendChild(row);
@@ -126,8 +133,8 @@
     }
 
     function redirectionLeader() {
-      return window.location.href = "../../src/pages/leader.html"
       console.log('cliquei')
+      return window.location.href = "../../src/pages/leader.html"
     }
 
   </script>

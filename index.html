@@ -1,91 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>Login</title>
-    <link rel="stylesheet" href="./src/styles/index.css" />
-  </head>
-  <body>
-    <main>
-      <section class="login">
-        <div class="imagem">
-          <img
-            src="./src/assets/pitbull.png"
-            alt="Rosto de um cachorro da raça pitbull"
-          />
-        </div>
-        <div class="content-form">
-          <img src="./src/assets/Logo.png" alt="" />
-          <h2>Bem Vindo</h2>
-          <p>Faça seu cadastro para começar.</p>
-          <form id="loginForm">
-            <input
-              type="email"
-              name="email"
-              placeholder="E-mail"
-              required
-            /><br />
-            <input
-              type="password"
-              name="password"
-              placeholder="Senha"
-              required
-            /><br />
-            <div id="message"></div>
-            <button type="submit">Entrar</button>
-          </form>
-          <span
-            >Não tem uma conta?
-            <a href="./src/pages/register.html">Cadastre-se</a></span
-          >
-        </div>
-      </section>
-    </main>
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", (event) => {
-          event.preventDefault();
 
-          const formData = new FormData(event.target);
-          const user = {
-            email: formData.get("email"),
-            password: formData.get("password"),
-          };
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <title>Login</title>
+  <link rel="stylesheet" href="./src/styles/index.css" />
+</head>
 
-          fetch("http://localhost:3030/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user),
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              return response.json();
-            })
-            .then((data) => {
-              const messageElement = document.getElementById("message");
-              messageElement.textContent = `Login successful.`;
-              // Adicionando a lógica de redirecionamento para a página home
-              window.location.href = "./src/pages/home.html";
-            })
-            .catch((error) => {
-              console.error("Error logging in:", error);
-              const messageElement = document.getElementById("message");
-              messageElement.textContent =
-                `Por favor, verifique suas credenciais e tente novamente.`;
-            });
-        });
-    </script>
-  </body>
+<body>
+  <main>
+    <section class="login">
+      <div class="imagem">
+        <img src="./src/assets/pitbull.png" alt="Rosto de um cachorro da raça pitbull" />
+      </div>
+      <div class="content-form">
+        <img src="./src/assets/Logo.png" alt="" />
+        <h2>Bem Vindo</h2>
+        <p>Faça seu cadastro para começar.</p>
+        <form id="loginForm">
+          <input type="email" name="email" placeholder="E-mail" required /><br />
+          <input type="password" name="password" placeholder="Senha" required /><br />
+          <div id="message"></div>
+          <button type="submit">Entrar</button>
+        </form>
+        <span>Não tem uma conta?
+          <a href="./src/pages/register.html">Cadastre-se</a></span>
+      </div>
+    </section>
+  </main>
+  <script type="module">
+    import { login } from './auth.js';
+
+    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const email = formData.get("email");
+      const password = formData.get("password");
+
+      try {
+        const data = await login(email, password);
+        console.log(data);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", data.user)
+        localStorage.setItem("userId", data.id);
+        
+        const messageElement = document.getElementById("message");
+        messageElement.textContent = `Login successful.`;
+
+        // Redirecionar para a página home
+        window.location.href = "./src/pages/home.html";
+      } catch (error) {
+        console.error("Error logging in:", error);
+        const messageElement = document.getElementById("message");
+        messageElement.textContent =
+          `Por favor, verifique suas credenciais e tente novamente.`;
+      }
+    });
+
+  </script>
+</body>
+
 </html>
